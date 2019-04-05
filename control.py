@@ -63,7 +63,7 @@ def SndEmail(settings, notifyevent):
 			# process string into list of e-mail addresses
 			toaddrlist = toaddr.split(",")
 		else:
-			toaddrlist[0] = toaddr
+			toaddrlist = [toaddr]
 
 		index = 0
 		while(index < len(toaddrlist)):
@@ -75,8 +75,9 @@ def SndEmail(settings, notifyevent):
 			msg.attach(MIMEText(body, 'plain'))
 
 			server = smtplib.SMTP(settings['email']['SMTPServer'], settings['email']['SMTPPort'])
-			server.starttls()
-			server.login(fromaddr, settings['email']['Password'])
+			#server.starttls()
+			if settings['email']['Password']:
+				server.login(fromaddr, settings['email']['Password'])
 			text = msg.as_string()
 			server.sendmail(fromaddr, toaddrlist[index], text)
 			server.quit()
@@ -84,11 +85,11 @@ def SndEmail(settings, notifyevent):
 			WriteLog(event)
 			index += 1
 
-	except smtplib.SMTPException:
-		event = "E-mail notification failed. SMTPLib general exception class(smptlib.SMTPException)."
+	except smtplib.SMTPException as e:
+		event = "E-mail notification failed. SMTPLib general exception class(smptlib.SMTPException). %s" %e
 		WriteLog(event)
-	except:
-		event = "E-mail notification failed, for some unknown reason."
+	except Exception as e:
+		event = "E-mail notification failed, for some unknown reason. %s" % e
 		WriteLog(event)
 	return()
 
