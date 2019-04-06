@@ -56,7 +56,7 @@ def SndEmail(settings, notifyevent):
 	try:
 		fromaddr = settings['email']['FromEmail']
 		toaddr = settings['email']['ToEmail']
-		toaddrlist = [addr.strip() for addr in toaddr.split(',')]
+		toaddrlist = [addr.strip() for addr in toaddr.split(',')] # split on commas and strip out any spaces
 
 		msg = MIMEMultipart()
 		msg['From'] = fromaddr
@@ -73,7 +73,7 @@ def SndEmail(settings, notifyevent):
 		server.sendmail(fromaddr, toaddrlist, text)
 		server.quit()
 
-		for addr in toaddrlist:			
+		for addr in toaddrlist:
 			event = subjectmessage + ". E-mail notification sent to: " + addr
 			WriteLog(event)
 
