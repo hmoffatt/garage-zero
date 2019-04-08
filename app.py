@@ -122,6 +122,11 @@ def ReadSettings():
 			'APIKey': "0" # API Key for WebMaker IFTTT App notification
 		}
 
+		settings['pushover'] = {
+			'APIKey': '', # API Key for Pushover notifications
+			'UserKeys': '', # Comma-separated list of user keys
+		}
+
 		WriteSettings(settings)
 
 	return(settings)
@@ -230,6 +235,16 @@ def admin(action=None):
 			if(response['notify_on_open']!=''):
 				print("Notify on Open: " + response['notify_on_open'])
 				settings['ifttt']['notify_on_open'] = response['notify_on_open']
+
+		if('pushover_apikey' in response):
+			if(response['pushover_apikey']!=settings['pushover']['APIKey']):
+				print("Pushover API key: " + response['pushover_apikey'])
+				settings['pushover']['APIKey'] = response['pushover_apikey']
+
+		if('pushover_userkeys' in response):
+			if(response['pushover_apikey']!=settings['pushover']['UserKeys']):
+				print("Pushover User keys: " + response['pushover_userkeys'])
+				settings['pushover']['UserKeys'] = response['pushover_userkeys']
 
 		WriteSettings(settings)
 		event = "Settings Updated."
