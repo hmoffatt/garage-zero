@@ -105,20 +105,19 @@ def SendPushoverNotification(settings,notifyevent):
 			"user": user.strip(),
 			"message": notifymessage,
 			"title": subjectmessage,
-			"url": "http://garagedoor.moffatt.id.au",
 		}
 
 		url = 'https://api.pushover.net/1/messages.json'
 		try:
 			request = urllib2.Request(url, json.dumps(data), {'Content-Type': 'application/json'})
 			response = urllib2.urlopen(request)
-			WriteLog("Pushover Notification Success: " + notifyevent)
+			WriteLog("Pushover Notification to %s Succeeded: %s" % (user, notifyevent))
 		except urllib2.HTTPError:
-			WriteLog("Pushover Notification Failed: " + notifyevent)
+			WriteLog("Pushover Notification to %s Failed: %s" % (user, notifyevent))
 		except urllib2.URLError:
-			WriteLog("Pushover Notification Failed: " + notifyevent)
+			WriteLog("Pushover Notification to %s Failed: %s" % (user, notifyevent))
 		except:
-			WriteLog("Pushover Notification Failed: " + notifyevent)
+			WriteLog("Pushover Notification to %s Failed: %s" % (user, notifyevent))
 
 def SendNotification(settings,notifyevent):
 	# WriteLog("[DEBUG]: SendNotification Function. " + notifyevent)
