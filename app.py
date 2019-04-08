@@ -106,6 +106,10 @@ def ReadSettings():
 		# Issue with reading states JSON, so create one/write new one
 		settings = {}
 
+		settings['misc'] = {
+			'PublicURL': '',
+		}
+
 		settings['email'] = {
 			'ToEmail': 'your_to_email', # E-mail address to send notification to
 			'FromEmail': 'your_from_email', # E-mail address to log into system
@@ -218,6 +222,11 @@ def admin(action=None):
 			if(response['password']!=''):
 				print("password: " + response['password'])
 				settings['email']['Password'] = response['password']
+
+		if('public_url' in response):
+			if(response['public_url']!=''):
+				print("public_url: " + response['public_url'])
+				settings['misc']['PublicURL'] = response['public_url']
 
 		if('timeout' in response):
 			if(response['timeout']!=''):

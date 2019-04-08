@@ -105,6 +105,7 @@ def SendPushoverNotification(settings,notifyevent):
 			"user": user.strip(),
 			"message": notifymessage,
 			"title": subjectmessage,
+			"url": settings['misc']['PublicURL'],
 		}
 
 		url = 'https://api.pushover.net/1/messages.json'
