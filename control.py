@@ -26,7 +26,7 @@ import RPi.GPIO as GPIO
 # GPIO Definitions
 relay_pin = 14			# GPIO 14, Pin 08 (RasPi Header)
 relay_gate_pin = 15		# GPIO 15, Pin 10 (RasPi Header)
-switch_pin = 18			# GPIO 18, Pin 12 (RasPi Header)
+switch_pin = 2			# GPIO 2, Pin 03 (RasPi Header)
 
 # Init GPIO's to default values / behavior
 GPIO.setmode(GPIO.BCM)
@@ -34,7 +34,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(relay_pin, GPIO.OUT, initial=0) # Setup Relay IN1 on GPIO
 GPIO.setup(relay_gate_pin, GPIO.OUT, initial=0) # Setup Relay IN2 on GPIO
 
-GPIO.setup(switch_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Setup Magnetic Switch on GPIO18 (set pull down)
+GPIO.setup(switch_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Setup Magnetic Switch on GPIO (set pull up)
 
 timer_start = 0 # Initialize timer_start variable, set to 0
 notify_on_close = False # Initialize the flag for notifying that the door has closed
