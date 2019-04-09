@@ -66,7 +66,6 @@ def SndEmail(settings, notifyevent):
 		msg.attach(MIMEText(body, 'plain'))
 
 		server = smtplib.SMTP(settings['email']['SMTPServer'], settings['email']['SMTPPort'])
-
 		if settings['email']['UseTLS']:
 			server.starttls()
 		if settings['email']['Username']:
