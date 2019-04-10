@@ -39,7 +39,7 @@ GPIO.setup(relay_gate_pin, GPIO.OUT, initial=0) # Setup Relay IN2 on GPIO
 GPIO.setup(switch_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Setup Magnetic Switch on GPIO (set pull up)
 
 timer_start = 0 # Initialize timer_start variable, set to 0
-reminder_timer_start # Initialize reminder_timer_start, set to 0
+reminder_timer_start = 0 # Initialize reminder_timer_start, set to 0
 notify_on_close = False # Initialize the flag for notifying that the door has closed
 opened_at = 0 # Time the door was opened
 
@@ -48,7 +48,7 @@ def SndEmail(settings, notifyevent):
 	now = datetime.datetime.now()
 
 	if notifyevent == "GarageEvent_Open_Alarm" or notifyevent == "GarageEvent_StillOpen_Alarm":
-		open_minutes = int((now - opened_at).total_seconds() / 60)
+		open_minutes = int((time.time() - opened_at) / 60)
 		notifymessage = "GarageZero wants you to know that your garage door has been open for %d minutes at %s" % (open_minutes, now)
 		subjectmessage = "GarageZero: Door Open for %d Minutes" % open_minutes
 	elif notifyevent == "GarageEvent_Closed":
@@ -96,7 +96,7 @@ def SendPushoverNotification(settings,notifyevent):
 	now = datetime.datetime.now()
 
 	if notifyevent == "GarageEvent_Open_Alarm" or notifyevent == "GarageEvent_StillOpen_Alarm":
-		open_minutes = int((now - opened_at).total_seconds() / 60)
+		open_minutes = int((time.time() - opened_at) / 60)
 		notifymessage = "GarageZero wants you to know that your garage door has been open for %d minutes at %s" % (open_minutes, now)
 		subjectmessage = "GarageZero: Door Open for %d Minutes" % open_minutes
 	elif notifyevent == "GarageEvent_Closed":
@@ -160,7 +160,7 @@ def SendNotification(settings,notifyevent):
 			key = settings['ifttt']['APIKey']
 			url = 'https://maker.ifttt.com/trigger/' + notifyevent + '/with/key/' + key
 			try:
-				open_minutes = int((datetime.datetime.now() - opened_at).total_seconds() / 60)
+				open_minutes = int((time.time() - opened_at) / 60)
 				query_args = { "value1" : open_minutes }
 				postdata = urllib.urlencode(query_args)
 
@@ -225,6 +225,8 @@ def CheckDoorState(states, settings):
 	# Function run from Readstates()
 	# *****************************************
 	global timer_start
+        global reminder_timer_start
+        global opened_at
 
 	if (GPIO.input(switch_pin) == True and states['inputs']['switch'] != True):
 		states['inputs']['switch'] = True
