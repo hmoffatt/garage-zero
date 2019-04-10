@@ -217,6 +217,8 @@ def CheckDoorState(states, settings):
 
 # First Init List Switch States
 
+WriteLog("System started.")
+
 while True:
 	settings = ReadSettings()
 	states = CheckDoorState(ReadStates(),settings)
