@@ -8,6 +8,7 @@ def DefaultSettings():
 
 	settings['misc'] = {
 		'PublicURL': '',
+		'CameraURL': '',
 	}
 
 	settings['email'] = {

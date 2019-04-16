@@ -11,13 +11,14 @@ def index():
 	door_history, events = ReadLog()
 
 	states = ReadStates()
+	settings = ReadSettings()
 
 	if(states['inputs']['switch'] == True):
 		door_state = True
 	else:
 		door_state = False
 
-	return render_template('index.html', state=door_state, events=events, door_history=door_history)
+	return render_template('index.html', state=door_state, events=events, door_history=door_history, camera_url=settings['misc']['CameraURL'])
 
 @app.route('/button')
 def button():

@@ -124,6 +124,17 @@
         </div>
       </div>
 
+      {% if camera_url %}
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title"><a href="/history">Live view</a></h3>
+        </div>
+        <div class="panel-body" style="text-align: center">
+          <img src="{{ camera_url }}" style="max-width: 100%">
+        </div>
+      </div>
+      {% endif %}
+
       <div class="well">
         <p style="color:grey">Garage Door Web Application created by <a href="http://parmeter.net/tech">Ben Parmeter</a>, copyright 2017.</p>
         <p style="color:grey">For administration tasks, system information and licenses <a href="/admin">click here.</a></p>
