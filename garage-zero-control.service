@@ -9,6 +9,8 @@ Group=root
 WorkingDirectory=/home/pi/garage-zero
 ExecStart=/usr/bin/python control.py
 Restart=always
+StandardOutput=syslog
+SyslogIdentifier=garage-zero
 
 [Install]
 WantedBy=multi-user.target
