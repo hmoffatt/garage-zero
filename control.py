@@ -217,50 +217,52 @@ def CheckDoorState(states, settings):
 
 # First Init List Switch States
 
-WriteLog("System started.")
+def MainLoop():
+	WriteLog("System started.")
 
-while True:
-	settings = ReadSettings()
-	states = CheckDoorState(ReadStates(),settings)
+	while True:
+		settings = ReadSettings()
+		states = CheckDoorState(ReadStates(),settings)
 
-	if (states['inputs']['switch'] == False) and (notify_on_close == True):
-		# WriteLog("[DEBUG]: Garage Door Closed. Calling SendNotification Function")
-		notify_on_close = False
-		notifyevent = "GarageEvent_Closed"
-		SendNotification(settings,notifyevent)
-
-	if (timer_start > 0):
-		if(time.time() > (timer_start + (settings['notification']['minutes']*60))):
-			# WriteLog("[DEBUG]: Garage open for 10 mins. Calling SendNotification Function")
-			notifyevent = "GarageEvent_Open_Alarm"
-			SendNotification(settings,notifyevent)
-			timer_start = 0 # Stop the timer, stop from sending another notification
-			notify_on_close = True
-
-			if (settings['notification']['reminder'] > 0):
-				reminder_timer_start = time.time()
-
-	if (reminder_timer_start > 0):
-		if(time.time() > (reminder_timer_start + (settings['notification']['reminder']*60))):
-			# WriteLog("[DEBUG]: Garage still open for 10 mins. Calling SendNotification Function")
-			notifyevent = "GarageEvent_StillOpen_Alarm"
+		if (states['inputs']['switch'] == False) and (notify_on_close == True):
+			# WriteLog("[DEBUG]: Garage Door Closed. Calling SendNotification Function")
+			notify_on_close = False
+			notifyevent = "GarageEvent_Closed"
 			SendNotification(settings,notifyevent)
 
-			if settings['notification']['reminder'] > 0: # check that the setting hasn't changed
-				reminder_timer_start = time.time() # Restart the timer
-			else:
-				reminder_timer_start = 0
+		if (timer_start > 0):
+			if(time.time() > (timer_start + (settings['notification']['minutes']*60))):
+				# WriteLog("[DEBUG]: Garage open for 10 mins. Calling SendNotification Function")
+				notifyevent = "GarageEvent_Open_Alarm"
+				SendNotification(settings,notifyevent)
+				timer_start = 0 # Stop the timer, stop from sending another notification
+				notify_on_close = True
 
-	if (states['outputs']['button'] == True):
+				if (settings['notification']['reminder'] > 0):
+					reminder_timer_start = time.time()
 
-		event = "Button Pressed."
-		WriteLog(event)
+		if (reminder_timer_start > 0):
+			if(time.time() > (reminder_timer_start + (settings['notification']['reminder']*60))):
+				# WriteLog("[DEBUG]: Garage still open for 10 mins. Calling SendNotification Function")
+				notifyevent = "GarageEvent_StillOpen_Alarm"
+				SendNotification(settings,notifyevent)
 
-		ToggleRelay()
+				if settings['notification']['reminder'] > 0: # check that the setting hasn't changed
+					reminder_timer_start = time.time() # Restart the timer
+				else:
+					reminder_timer_start = 0
 
-		states['outputs']['button'] = False
-		WriteStates(states)
+		if (states['outputs']['button'] == True):
+
+			event = "Button Pressed."
+			WriteLog(event)
+
+			ToggleRelay()
+
+			states['outputs']['button'] = False
+			WriteStates(states)
 
 	time.sleep(0.25)
 
-exit()
+if __name__ == "__main__":
+	MainLoop()
