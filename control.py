@@ -38,10 +38,12 @@ GPIO.setup(relay_gate_pin, GPIO.OUT, initial=0) # Setup Relay IN2 on GPIO
 
 GPIO.setup(switch_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Setup Magnetic Switch on GPIO (set pull up)
 
+# Global variables
 timer_start = 0 # Initialize timer_start variable, set to 0
 reminder_timer_start = 0 # Initialize reminder_timer_start, set to 0
 notify_on_close = False # Initialize the flag for notifying that the door has closed
 opened_at = 0 # Time the door was opened
+exit_loop = False
 
 def SendEmail(settings, notifyevent):
 	# WriteLog("[DEBUG]: SndEmail Function. " + notifyevent)
@@ -225,7 +227,7 @@ def MainLoop():
 
 	WriteLog("System started.")
 
-	while True:
+	while not exit_loop:
 		settings = ReadSettings()
 		states = CheckDoorState(ReadStates(),settings)
 
