@@ -218,6 +218,11 @@ def CheckDoorState(states, settings):
 # First Init List Switch States
 
 def MainLoop():
+	global timer_start
+	global reminder_timer_start
+	global notify_on_close
+	global opened_at
+
 	WriteLog("System started.")
 
 	while True:
