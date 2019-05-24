@@ -186,8 +186,8 @@ def CheckDoorState(states, settings):
 	# Function run from Readstates()
 	# *****************************************
 	global timer_start
-        global reminder_timer_start
-        global opened_at
+	global reminder_timer_start
+	global opened_at
 
 	if (GPIO.input(switch_pin) == True and states['inputs']['switch'] != True):
 		states['inputs']['switch'] = True
